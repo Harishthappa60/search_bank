@@ -21,10 +21,17 @@ public class UserService {
 
     private static final String PAN_CARD_REGEX = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$";
     private static final String NAME_REGEX = "^[A-Za-z ]+$";
+    private static final String DOB_REGEX = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$";
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private static final String MOBILE_NUMBER_REGEX= "^[0-9]{10}$";
 
     public boolean validateName(String name) {
         return name != null && name.matches(NAME_REGEX);
+    }
+
+    public boolean validateDOB(String DOB){
+
+        return DOB !=null && DOB.matches(DOB_REGEX);
     }
 
     public boolean validatePanCard(String pan_number) {
@@ -36,11 +43,19 @@ public class UserService {
         return email != null && email.matches(EMAIL_REGEX);
     }
 
+    public boolean validateMobileNumber(String mobile_number){
+        return mobile_number !=null && mobile_number.matches(MOBILE_NUMBER_REGEX);
+    }
+
 
     public BankUser addUser(@RequestBody BankUser bankUser){
         if (!validateName(bankUser.getName())) {
             logger.warn("Invalid Name");
             throw new IllegalArgumentException("Invalid name. Name should not contain numbers");
+        }
+        if(!validateDOB(bankUser.getDob())){
+            logger.warn("Invalid DOB");
+            throw new IllegalArgumentException("Invalid DOB, Please enter in sequence DD/MM/YY ");
         }
         if (!validatePanCard(bankUser.getPan_number())) {
             logger.warn("Invalid pan_number");
@@ -49,6 +64,10 @@ public class UserService {
         if (!validateEmail(bankUser.getEmail())) {
             logger.warn("Invalid Email");
             throw new IllegalArgumentException("Invalid email. Please type correct email");
+        }
+        if(!validateMobileNumber(bankUser.getMobile_number())){
+            logger.warn("Invalid Mobile_Number");
+            throw new IllegalArgumentException("Invalid Mobile_number,Please enter valid mobile_number");
         }
         logger.info("User Added");
 
@@ -60,13 +79,14 @@ public class UserService {
        return repository.findAll();
     }
 
-    public String updateUser(String PAN_number ,long id){
-        BankUser bankUser =repository.getById(id);
-        bankUser.setPan_number(PAN_number);
+    public String updateUser(String dob,long id){
+        BankUser bankUser=repository.getById(id);
+        if(bankUser.getDob()==null || bankUser.getDob()!=null){
+            bankUser.setDob(dob);
+        }
+        logger.info("User updated:");
         repository.save(bankUser);
-        logger.info("User updated");
-
-        return "PAN_number updated";
+        return "user updated";
     }
 
     public String deleteUser(long id){
@@ -74,4 +94,6 @@ public class UserService {
          logger.info("User Deleted");
          return "User Deleted:";
     }
+
+
 }

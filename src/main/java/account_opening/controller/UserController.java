@@ -22,13 +22,14 @@ public class UserController {
         return service.getAllUser();
     }
 
-    @PutMapping("/bankUser_update")
-    public String updateUser(@RequestParam String pan_number, long id){
-        return service.updateUser(pan_number,id);
+    @PutMapping("/User_update")
+    public String updateUser(@RequestParam String dob, long id){
+        return service.updateUser(dob,id);
     }
 
     @DeleteMapping("/bankUser_delete")
     public String deleteUser(long id){
         return service.deleteUser(id);
     }
+
 }
