@@ -9,14 +9,14 @@ import java.util.List;
 @Repository
 public interface BranchRepository extends JpaRepository<Branch,Long> {
     // Search by Name
-    List<Branch> findByName(String name);
+    List<Branch> findByNameContainingIgnoreCase(String name);
 
     // Search by Code
-    List<Branch> findByCode(String code);
+    List<Branch> findByCodeContainingIgnoreCase(String code);
 
     // Search by City
-    List<Branch> findByCity(String city);
+    List<Branch> findByCityContainingIgnoreCase(String city);
 
     // Search by State
-    List<Branch> findByState(String state);
+    List<Branch> findByStateContainingIgnoreCase(String state);
 }

@@ -22,22 +22,22 @@ public class BranchService {
 
     // Search branches by Name
     public List<Branch> searchByName(String name) {
-        return repository.findByName(name);
+        return repository.findByNameContainingIgnoreCase(name);
     }
 
     // Search branches by Code
     public List<Branch> searchByCode(String code) {
-        return repository.findByCode(code);
+        return repository.findByCodeContainingIgnoreCase(code);
     }
 
     // Search branches by City
     public List<Branch> searchByCity(String city) {
-        return repository.findByCity(city);
+        return repository.findByCityContainingIgnoreCase(city);
     }
 
     // Search branches by State
     public List<Branch> searchByState(String state) {
-        return repository.findByState(state);
+        return repository.findByStateContainingIgnoreCase(state);
     }
 
 
